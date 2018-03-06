@@ -25,7 +25,8 @@ export default function form (WrappedComponent) {
 
       this.state = {
         byName: {},
-        byId: {}
+        byId: {},
+        hasError: true
       };
     }
 
@@ -133,6 +134,7 @@ export default function form (WrappedComponent) {
     };
 
     _setErrors = () => {
+        let err = false;
       this.setState(state => {
         return {
           byId: Object.keys(state.byId).reduce((byId, id) => {
@@ -154,16 +156,18 @@ export default function form (WrappedComponent) {
 
               if (error) {
                 byId[id].error = error;
-
+                err = true;
                 break;
               } else {
+                  err = false;
                 delete byId[id].error;
               }
             }
 
             return byId;
 
-          }, {})
+          }, {}),
+            hasError: err
         };
       });
     };
@@ -213,7 +217,7 @@ export default function form (WrappedComponent) {
             return byId;
           }, {})
         }
-      }), this._setErrors);
+      }), this._setErrors() );
     };
 
     showError = (component, error) => {
@@ -247,8 +251,13 @@ export default function form (WrappedComponent) {
       }));
     };
 
+    hasError = () => {
+        return this.state.hasError;
+    };
+
     render() {
       return (
+          <div>
         <WrappedComponent
           {...this.props}
           validate={this.validate}
@@ -257,7 +266,9 @@ export default function form (WrappedComponent) {
           showError={this.showError}
           hideError={this.hideError}
         />
+          </div>
       )
+
     }
   }
 }
