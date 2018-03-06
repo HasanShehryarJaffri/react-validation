@@ -266,7 +266,6 @@ export default function form (WrappedComponent) {
           getValues={this.getValues}
           showError={this.showError}
           hideError={this.hideError}
-          hasError={this.hasError}
         />
       )
 
