@@ -219,7 +219,6 @@ export default function form (WrappedComponent) {
         }
       }), this._setErrors() );
 
-      debugger;
       return this.state.hasError;
     };
 
