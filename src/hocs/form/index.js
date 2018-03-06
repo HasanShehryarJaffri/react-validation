@@ -260,7 +260,6 @@ export default function form (WrappedComponent) {
 
     render() {
       return (
-          <div>
         <WrappedComponent
           {...this.props}
           validate={this.validate}
@@ -270,7 +269,6 @@ export default function form (WrappedComponent) {
           hideError={this.hideError}
           hasError={this.hasError}
         />
-          </div>
       )
 
     }
