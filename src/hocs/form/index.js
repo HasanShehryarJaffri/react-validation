@@ -218,6 +218,8 @@ export default function form (WrappedComponent) {
           }, {})
         }
       }), this._setErrors() );
+
+      return this.state.hasError;
     };
 
     showError = (component, error) => {
