@@ -1,5 +1,8 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+// import shallowEqualArrays from 'shallow-equal/arrays';
+// import shallowEqualObjects from 'shallow-equal/objects';
+import isEqual from 'lodash/isEqual';
 import uuidv4 from 'uuid/v4';
 
 export default class Base extends Component {
@@ -13,7 +16,9 @@ export default class Base extends Component {
   };
 
   static propTypes = {
-    validations: PropTypes.arrayOf(PropTypes.func)
+    validations: PropTypes.arrayOf(PropTypes.func),
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func
   };
 
   static defaultProps = {
@@ -30,8 +35,10 @@ export default class Base extends Component {
     this.context._unregister(this, this.id);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps !== this.props) {
+  componentWillReceiveProps({ validations: nextValidations, ...nextProps }) {
+    const { validations, ...props } = this.props;
+
+     if (!isEqual(props, nextProps) || !isEqual(validations, nextValidations)) {
       this.context._setProps(nextProps, this.id);
     }
   }
@@ -44,12 +51,14 @@ export default class Base extends Component {
     event.persist();
 
     this.context._handleChange(event, this.id);
+    this.props.onChange && this.props.onChange(event);
   };
 
   handleBlur = (event) => {
     event.persist();
 
     this.context._handleBlur(event, this.id);
+    this.props.onBlur && this.props.onBlur(event);
   };
 
   render() {

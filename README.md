@@ -8,7 +8,7 @@ It is not easy to validate forms with React. The reason is a one-way data flow s
 React-validation provides several components which are 'connected' to the form via the input's method attached by the Form component.
 
 ### [DEMO](http://lesha-spr.github.io/react-validation/)
-### [DEMO src](https://github.com/Lesha-spr/react-validation/tree/master/src/App.js)
+### [DEMO src](https://github.com/Lesha-spr/react-validation/tree/master/lib/src/gh-pages)
 
 It is just a validation and doesn't provide any model or something similar. You can use FormData or something like [form-serialize](https://www.npmjs.com/package/form-serialize) to get form data.
 
@@ -51,7 +51,7 @@ const email = (value) => {
 
 const lt = (value, props) => {
   // get the maxLength from component's props
-  if (value.toString().trim().length > props.maxLength) {
+  if (!value.toString().trim().length > props.maxLength) {
     // Return jsx
     return <span className="error">The value exceeded {props.maxLength} symbols.</span>
   }
@@ -127,9 +127,11 @@ Any valid props can easily be passed to ```Form```, such ```onSubmit``` and ```m
 
 1. ```validate(name)``` - validates control(s) with the passed name. The difference between this method and default validation is that ```validate``` marks the input as ```isUsed``` and ```isChanged```. ```name``` - name of the corresponding component(s).
 
-2. ```showError(component [,error])``` - helps to handle async API errors. ```component``` - ref to the React Component to validate. ```error``` - error to show. Can be string or jsx.
+2. ```validateAll()``` - validates all controls by marking all controls as ```isUsed``` and ```isChanged```. 
 
-3. ```hideError(component)``` - hides a corresponding component's error. ```component``` - ref to the React Component.
+3. ```showError(component [,error])``` - helps to handle async API errors. ```component``` - ref to the React Component to validate. ```error``` - error to show. Can be string or jsx.
+
+4. ```hideError(component)``` - hides a corresponding component's error. ```component``` - ref to the React Component.
 
 
 ```javascript
@@ -196,7 +198,7 @@ react-validations also provides HOC (High Order Component) for each component. T
 import { form, control, button } from 'react-validation';
 
 // Define own Form component
-const Form = ({ getValues, validate, showError, hideError, children, ...props }) => ( // destruct non-valid props
+const Form = ({ getValues, validate, validateAll, showError, hideError, children, ...props }) => ( // destruct non-valid props
   <form {...props}>{children}</form>
 );
 
