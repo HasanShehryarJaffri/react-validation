@@ -219,6 +219,7 @@ export default function form (WrappedComponent) {
         }
       }), this._setErrors() );
 
+      debugger;
       return this.state.hasError;
     };
 
@@ -267,6 +268,7 @@ export default function form (WrappedComponent) {
           getValues={this.getValues}
           showError={this.showError}
           hideError={this.hideError}
+          hasError={this.hasError}
         />
           </div>
       )
